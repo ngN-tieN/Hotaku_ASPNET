@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 //using Azure.Security.KeyVault.Secrets;
 using DotNetEnv;
 
-namespace Hotaku.Persistence;
+namespace Hotaku.Persistence.Entities;
 
 public partial class HotakuContext : DbContext
 {
@@ -51,8 +51,8 @@ public partial class HotakuContext : DbContext
         //    string connectionString = secret.Value;
         //    optionsBuilder.UseNpgsql(connectionString);
         //}
-        DotNetEnv.Env.Load();
-        var connectionString = System.Environment.GetEnvironmentVariable("HotakuDbConnection");
+        Env.Load();
+        var connectionString = Environment.GetEnvironmentVariable("HOTAKU_DB_CONNECTION");
 
         System.Diagnostics.Debug.WriteLine(connectionString);
 
@@ -60,6 +60,7 @@ public partial class HotakuContext : DbContext
         {
             optionsBuilder.UseNpgsql(connectionString);
         }
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

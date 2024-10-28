@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hotaku.Persistence;
+namespace Hotaku.Persistence.Entities;
 
-public partial class UserMangaHistory
+public partial class UserFavoriteManga
 {
-    public string HistoryId { get; set; } = null!;
+    public string FavoriteId { get; set; } = null!;
 
     public string? UserId { get; set; }
 
     public string? MangaId { get; set; }
 
-    public List<string>? ReadChapterIds { get; set; }
-
-    public DateTime? ReadAt { get; set; }
+    public DateTime? AddedAt { get; set; }
 
     public virtual Manga? Manga { get; set; }
 
