@@ -224,7 +224,8 @@ UpgradeLog*.htm
 # SQL Server files
 *.mdf
 *.ldf
-
+# EF Core migrations
+*/Migrations
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

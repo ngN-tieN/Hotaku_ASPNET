@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hotaku.Persistence;
+namespace Hotaku.Persistence.Entities;
 
 public partial class Manga
 {
