@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
+//using Azure.Identity;
+//using Azure.Security.KeyVault.Secrets;
+using DotNetEnv;
 
 namespace Hotaku.Persistence;
 
@@ -39,15 +40,24 @@ public partial class HotakuContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
+        //if (!optionsBuilder.IsConfigured)
+        //{
+        //    var keyVaultName = "hotaku";
+        //    var kvUri = $"https://{keyVaultName}.vault.azure.net/";
+
+        //    var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
+
+        //    KeyVaultSecret secret = client.GetSecret("HotakuDbConnection");
+        //    string connectionString = secret.Value;
+        //    optionsBuilder.UseNpgsql(connectionString);
+        //}
+        DotNetEnv.Env.Load();
+        var connectionString = System.Environment.GetEnvironmentVariable("HotakuDbConnection");
+
+        System.Diagnostics.Debug.WriteLine(connectionString);
+
+        if (connectionString != null)
         {
-            var keyVaultName = "hotaku";
-            var kvUri = $"https://{keyVaultName}.vault.azure.net/";
-
-            var client = new SecretClient(new Uri(kvUri), new DefaultAzureCredential());
-
-            KeyVaultSecret secret = client.GetSecret("HotakuDbConnection");
-            string connectionString = secret.Value;
             optionsBuilder.UseNpgsql(connectionString);
         }
     }
