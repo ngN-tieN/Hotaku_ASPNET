@@ -54,8 +54,6 @@ public partial class HotakuContext : DbContext
         Env.Load();
         var connectionString = Environment.GetEnvironmentVariable("HOTAKU_DB_CONNECTION");
 
-        System.Diagnostics.Debug.WriteLine(connectionString);
-
         if (connectionString != null)
         {
             optionsBuilder.UseNpgsql(connectionString);

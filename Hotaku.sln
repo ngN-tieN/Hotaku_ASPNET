@@ -5,7 +5,9 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotaku.Main", "Hotaku.Main\Hotaku.Main.csproj", "{2B30DF95-2EBC-4401-85DA-B887B654653C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotaku.Persistence", "Hotaku.Persistence\Hotaku.Persistence.csproj", "{48EF4BA7-6E3E-4998-BCA7-B2DE9DFDB33B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotaku.Persistence", "Hotaku.Persistence\Hotaku.Persistence.csproj", "{48EF4BA7-6E3E-4998-BCA7-B2DE9DFDB33B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{568E2CF6-C512-4935-A34A-2139B2B9748D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{48EF4BA7-6E3E-4998-BCA7-B2DE9DFDB33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EF4BA7-6E3E-4998-BCA7-B2DE9DFDB33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EF4BA7-6E3E-4998-BCA7-B2DE9DFDB33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{568E2CF6-C512-4935-A34A-2139B2B9748D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{568E2CF6-C512-4935-A34A-2139B2B9748D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{568E2CF6-C512-4935-A34A-2139B2B9748D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{568E2CF6-C512-4935-A34A-2139B2B9748D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
