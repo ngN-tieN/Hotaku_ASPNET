@@ -9,32 +9,31 @@ namespace Hotaku.Main.Controllers
     public class UserController(IUserService userService) : ControllerBase
     {
         [HttpGet]
-        public Task<List<User>> GetAllUsers()
+        public List<User> GetAllUsers()
         {
             return userService.GetAllUsers();
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserById(string userId)
+        public IActionResult GetUserById(string userId)
         {
             try
             {
-                var user = await userService.GetUserById(userId);
+                var user = userService.GetUserById(userId);
 
                 return Ok(user);
             }
             catch (Exception ex) {
                 return NotFound(new { message = ex.Message });
             }
-
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteUser(string userId)
+        [HttpDelete]
+        public IActionResult DeleteUser(User user)
         {
             try
             {
-                var message = await userService.DeleteUser(userId);
+                var message = userService.DeleteUser(user);
                 return Ok(message);
             }
             catch (Exception ex)
@@ -44,13 +43,27 @@ namespace Hotaku.Main.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] User user)
+        public IActionResult AddUser([FromBody] User user)
         {
             try
             {
                 user.CreatedAt = DateTime.Now;
-                var newUser = await userService.AddUser(user);
-                return CreatedAtAction(nameof(GetUserById), new { userId = newUser.UserId }, newUser);
+                var newUser = userService.AddUser(user);
+                return CreatedAtAction(nameof(GetUserById), newUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody] User user)
+        {
+            try
+            {
+                var updatedUser = userService.UpdateUser(user);
+                return Ok(updatedUser);
             }
             catch (Exception ex)
             {

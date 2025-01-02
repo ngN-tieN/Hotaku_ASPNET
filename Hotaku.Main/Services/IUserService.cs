@@ -6,10 +6,12 @@ namespace Hotaku.Main.Services
     {
         Task<User?> GetUserById(string userId);
 
-        Task<List<User>> GetAllUsers();
+        List<User> GetAllUsers();
 
         Task<User> AddUser(User user);
 
-        Task<string> DeleteUser(string userId);
+        Task<string> DeleteUser(User user);
+
+        Task<User> UpdateUser(User user);
     }
 }
