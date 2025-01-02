@@ -1,8 +1,10 @@
 ﻿using Hotaku.Persistence.Entities;
+using Hotaku.Shared.CustomAttribute;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotaku.Persistence.Repositories
 {
+    [Scoped]
     public class UserRepository(HotakuContext hotakuContext) : Repository<User>(hotakuContext), IUserRepository
     {
         public async Task<User> GetUserById(string id)

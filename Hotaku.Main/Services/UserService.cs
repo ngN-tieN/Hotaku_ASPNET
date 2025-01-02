@@ -1,8 +1,10 @@
 ﻿using Hotaku.Persistence.Entities;
 using Hotaku.Persistence.Repositories;
+using Hotaku.Shared.CustomAttribute;
 
 namespace Hotaku.Main.Services
 {
+    [Scoped]
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

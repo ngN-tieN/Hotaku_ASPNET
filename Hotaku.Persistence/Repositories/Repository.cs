@@ -1,9 +1,10 @@
 ﻿using Hotaku.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using Hotaku.Shared.CustomAttribute;
 namespace Hotaku.Persistence.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    [Scoped]
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly HotakuContext HotakuContext;
 

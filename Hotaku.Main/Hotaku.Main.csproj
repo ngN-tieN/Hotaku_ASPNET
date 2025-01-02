@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hotaku.Persistence\Hotaku.Persistence.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

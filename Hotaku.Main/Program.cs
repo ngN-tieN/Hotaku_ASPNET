@@ -2,6 +2,7 @@ using Hotaku.Main.Services;
 using Hotaku.Persistence;
 using Hotaku.Persistence.Repositories;
 using Hotaku.Persistence.Entities;
+using System.Reflection;
 
 namespace Hotaku.Main
 {
@@ -12,8 +13,8 @@ namespace Hotaku.Main
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers();
             builder.Services.AddDatabaseServices();
-            //builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddAllGenericTypes(typeof(IRepository<>), new[] { typeof(Repository<User>).Assembly });
+            builder.Services.RegisterRepositories([typeof(UserRepository).Assembly]);
+            builder.Services.RegisterRepositories([Assembly.GetExecutingAssembly()]);
 
             //var configure = new AllConfigure();
             //configure.ConfigureServices(builder.Services);
