@@ -1,6 +1,6 @@
 ﻿namespace Hotaku.Persistence.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : class, new()
+    public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity> AddAsync(TEntity entity);
 

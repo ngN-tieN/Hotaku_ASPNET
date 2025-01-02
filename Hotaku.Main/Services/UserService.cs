@@ -1,8 +1,10 @@
 ﻿using Hotaku.Persistence.Entities;
 using Hotaku.Persistence.Repositories;
+using Hotaku.Shared.CustomAttribute;
 
 namespace Hotaku.Main.Services
 {
+    [Scoped]
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
@@ -12,14 +14,17 @@ namespace Hotaku.Main.Services
             _userRepository = userRepository;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public List<User> GetAllUsers()
         {
-            return await _userRepository.GetAllUsers();
+            var users = new List<User>();
+            users = _userRepository.GetAllUsers();
+            return users;
         }
 
         public async Task<User?> GetUserById(string userId)
         {
-            return await _userRepository.GetUserById(userId);
+            var user = await _userRepository.GetUserById(userId);
+            return user;
         }
 
         public async Task<User> AddUser(User user)
@@ -27,9 +32,14 @@ namespace Hotaku.Main.Services
             return await _userRepository.AddUser(user);
         }
 
-        public Task<string> DeleteUser(string userId)
+        public Task<string> DeleteUser(User user)
         {
-            return _userRepository.DeleteUser(userId);
+            return _userRepository.DeleteUser(user);
+        }
+
+        public Task<User> UpdateUser(User user)
+        {
+            return _userRepository.UpdateUser(user);
         }
     }
 }

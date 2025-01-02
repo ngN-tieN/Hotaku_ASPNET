@@ -6,10 +6,12 @@ namespace Hotaku.Persistence.Repositories
     {
         Task<User> GetUserById(string id);
 
-        Task<List<User>> GetAllUsers();
+        List<User> GetAllUsers();
 
         Task<User> AddUser(User user);
 
-        Task<string> DeleteUser(string id);
+        Task<string> DeleteUser(User user);
+
+        Task<User> UpdateUser(User user);
     }
 }

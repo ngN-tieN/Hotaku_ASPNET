@@ -1,10 +1,17 @@
 ﻿using Hotaku.Persistence.Entities;
-
+using Microsoft.EntityFrameworkCore;
+using Hotaku.Shared.CustomAttribute;
 namespace Hotaku.Persistence.Repositories
 {
-    public class Repository<TEntity>(HotakuContext hotakuContext) : IRepository<TEntity> where TEntity : class, new()
+    [Scoped]
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly HotakuContext HotakuContext = hotakuContext;
+        protected readonly HotakuContext HotakuContext;
+
+        public Repository(HotakuContext hotakuContext)
+        {
+            HotakuContext = hotakuContext;
+        }
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
@@ -29,7 +36,27 @@ namespace Hotaku.Persistence.Repositories
 
             try
             {
-                HotakuContext.Update(entity);
+                // Attach the entity to the context if it's not already being tracked
+                var entry = HotakuContext.Entry(entity);
+
+                var key = HotakuContext.Model.FindEntityType(typeof(TEntity))?.FindPrimaryKey()?.Properties
+                    .Select(p => typeof(TEntity).GetProperty(p.Name)?.GetValue(entity));
+
+                if (key != null)
+                {
+                    var existingEntity = await HotakuContext.Set<TEntity>().FindAsync(key);
+                    entry.State = EntityState.Modified;
+                    if (existingEntity != null)
+                    {
+                        HotakuContext.Entry(existingEntity).CurrentValues.SetValues(entity);
+                    }
+                    else
+                    {
+                        throw new Exception($"{nameof(entity)} with the specified key does not exist.");
+                    }
+                }
+
+                // Save changes to the database
                 await HotakuContext.SaveChangesAsync();
 
                 return entity;

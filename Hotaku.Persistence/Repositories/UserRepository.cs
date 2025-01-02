@@ -1,8 +1,10 @@
 ﻿using Hotaku.Persistence.Entities;
+using Hotaku.Shared.CustomAttribute;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotaku.Persistence.Repositories
 {
+    [Scoped]
     public class UserRepository(HotakuContext hotakuContext) : Repository<User>(hotakuContext), IUserRepository
     {
         public async Task<User> GetUserById(string id)
@@ -19,16 +21,17 @@ namespace Hotaku.Persistence.Repositories
             }
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public List<User> GetAllUsers()
         {
-            return await GetAll().ToListAsync();
+            return [.. GetAll()];
         }
 
         public async Task<User> AddUser(User user)
         {
             try
             {
-                var existingUser = await GetAll().FirstOrDefaultAsync(x => x.Email == user.Email);
+                List<User> users = [.. GetAll()];
+                var existingUser = users.Find(x => x.Email == user.Email);
                 if (existingUser != null)
                 {
                     throw new InvalidOperationException("This email is already in use.");
@@ -43,33 +46,35 @@ namespace Hotaku.Persistence.Repositories
             }
         }
 
-        public async Task<string> DeleteUser(string id)
+        public async Task<string> DeleteUser(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "User cannot be null");
+            }
+
             try
             {
-                var user = await HotakuContext.Set<User>()
-                    .Include(u => u.UserFavoriteMangas)
-                    .Include(u => u.UserMangaHistories)
-                    .Include(u => u.Notifications)
-                    .FirstOrDefaultAsync(u => u.UserId == id)
-                    ?? throw new InvalidOperationException("User does not exist.");
-
-                HotakuContext.UserFavoriteMangas.RemoveRange(user.UserFavoriteMangas);
-                HotakuContext.UserMangaHistories.RemoveRange(user.UserMangaHistories);
-
-                foreach (var notification in user.Notifications)
-                {
-                    notification.Users.Remove(user);
-                }
-
-                HotakuContext.Set<User>().Remove(user);
-                await HotakuContext.SaveChangesAsync();
-
-                return "User deleted successfully.";
+                hotakuContext.Remove(user);
+                await hotakuContext.SaveChangesAsync();
+                return $"User with ID '{user.UserId}' has been successfully deleted.";
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"Error deleting user: {ex.Message}");
+            }
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            try
+            {
+                var updatedUser = await UpdateAsync(user);
+                return updatedUser;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error deleting user: {ex.Message}");
             }
         }
     }
